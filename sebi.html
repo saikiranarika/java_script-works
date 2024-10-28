@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3acac;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #f9bbbb;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px;
+            width: 350px;
+            text-align: center;
+        }
+        .container1 {
+            background-color: #f0b5b5;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px;
+            width: 80%;
+            text-align: center;
+          
+            padding-top: 60px;
+        }
+        h1 {
+            color: #333;
+        }
+        input[type="number"], input[type="text"], input[type="password"], button {
+            padding: 10px;
+            margin: 5px 0;
+            width: 60%;
+        }
+        .actions button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .actions button:hover {
+            background-color: #45a049;
+        }
+        .activity-log {
+            height: 100px;
+            overflow-y: auto;
+            background-color: #eee;
+            padding: 10px;
+            text-align: left;
+        }
+        .account-holder {
+            background-color: #f1f1f1;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .account-holder p {
+            margin: 5px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            position: fixed; 
+            top: 10px; 
+            left: 50%;
+            transform: translateX(-50%); 
+            width: 80%; 
+            z-index: 0; 
+        }
+        .nav button {
+            padding: 10px;
+            background-color: #e97e7e;
+            color: rgb(0, 0, 0);
+            border: none;
+            cursor: pointer;
+        }
+        .nav button:hover {
+            background-color: #e6bef3;
+        }
+        .section {
+            margin-top: 60px; 
+            padding-top: 100px;
+
+        }
+        .nav button.active {
+    background-color: #e6bef3; 
+}
+
+    </style>
+</head>
+<body>
+
+<!-- Login Form -->
+<div class="container" id="loginForm">
+    <h1>Login</h1>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+    <p id="error" style="color: red;"></p>
+</div>
+
+<!-- Banking Dashboard and Profile -->
+<div class="container1 hidden" id="app">
+
+ <!-- Navigation Section -->
+<div class="nav">
+    <button id="navHomeButton" onclick="showSection('home')">Home</button>
+    <button id="navProfileButton" onclick="showSection('profile')">Profile</button>
+    <button onclick="logout()">Logout</button>
+</div>
+
+    <!-- Home Section -->
+    <div id="homeSection" class="section">
+        <h1>Sebi Online  Banking</h1>
+        <div class="balance">
+            <h3>Balance: ₹<span id="balance">0.00</span></h3>
+        </div>
+        <div class="actions">
+            <h3>Credit/Debit Amount</h3>
+            <input type="number" id="amount" placeholder="Enter amount">
+            <input type="password" id="transactionPin" placeholder="Enter PIN" required>
+            <button onclick="credit()">Credit</button>
+            <button onclick="debit()">Debit</button>
+        </div>
+        <div class="actions">
+            <h3>Transfer Money</h3>
+            <input type="text" id="recipient" placeholder="Recipient Name">
+            <input type="number" id="transferAmount" placeholder="Enter amount to transfer">
+            <button onclick="transfer()">Transfer</button>
+        </div>
+        <div class="activity">
+            <h3>Account Activity</h3>
+            <div class="activity-log" id="activityLog"></div>
+        </div>
+    </div>
+
+    <!-- Profile Section -->
+    <div id="profileSection" class="section1 hidden">
+        <h1>Profile</h1>
+        <div class="account-holder">
+            <p><strong>Name:</strong> <span id="accountName">kiran</span></p>
+            <p><strong>Account Number:</strong> <span id="accountNumber">123456789</span></p>
+            <p><strong>Email:</strong> <span id="accountEmail">kiran@gmail.com</span></p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let balance = 0;
+    const activityLog = document.getElementById('activityLog');
+
+    // Account holder details
+    const accountHolder = {
+        name: 'kiran',
+        accountNumber: '123456789',
+        email: 'kiran@gmail.com'
+    };
+
+   //login pin//
+    const correctPin = '1234';
+
+    // Login function
+    function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        
+        // login id and password//
+        const validUsername = 'kiran';
+        const validPassword = '1234';
+
+        // Check if the login is correct
+        if (username === validUsername && password === validPassword) {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('app').classList.remove('hidden');
+            updateAccountHolderDetails();
+            showSection('home');
+        } else {
+            document.getElementById('error').innerText = 'Invalid username or password';
+        }
+    }
+
+    // Function to update account holder details
+    function updateAccountHolderDetails() {
+        document.getElementById('accountName').innerText = accountHolder.name;
+        document.getElementById('accountNumber').innerText = accountHolder.accountNumber;
+        document.getElementById('accountEmail').innerText = accountHolder.email;
+    }
+
+    // Function to credit money
+    function credit() {
+        const enteredPin = document.getElementById('transactionPin').value;
+        if (enteredPin === correctPin) {
+            let amount = parseFloat(document.getElementById('amount').value);
+            if (amount > 0) {
+                balance += amount;
+                updateBalance();
+                logActivity(`Credited: ₹${amount.toFixed(2)}`);
+            } else {
+                alert('Enter a valid amount');
+            }
+        } else {
+            alert('Invalid PIN');
+        }
+        clearTransactionFields();
+    }
+
+    // Function to debit money
+    function debit() {
+        const enteredPin = document.getElementById('transactionPin').value;
+        if (enteredPin === correctPin) {
+            let amount = parseFloat(document.getElementById('amount').value);
+            if (amount > 0 && amount <= balance) {
+                balance -= amount;
+                updateBalance();
+                logActivity(`Debited: ₹${amount.toFixed(2)}`);
+            } else {
+                alert('Enter a valid amount or check your balance');
+            }
+        } else {
+            alert('Invalid PIN');
+        }
+        clearTransactionFields();
+    }
+
+    // Function to transfer money
+    function transfer() {
+        let recipient = document.getElementById('recipient').value;
+        let amount = parseFloat(document.getElementById('transferAmount').value);
+        if (recipient !== '' && amount > 0 && amount <= balance) {
+            balance -= amount;
+            updateBalance();
+            logActivity(`Transferred: ₹${amount.toFixed(2)} to ${recipient}`);
+        } else {
+            alert('Enter a valid recipient and amount or check your balance');
+        }
+        document.getElementById('recipient').value = '';
+        document.getElementById('transferAmount').value = '';
+    }
+
+    // Function to update balance display
+    function updateBalance() {
+        document.getElementById('balance').innerText = balance.toFixed(2);
+    }
+
+    // Function to log activity
+    function logActivity(activity) {
+        let newLog = document.createElement('p');
+        newLog.textContent = activity;
+        activityLog.appendChild(newLog);
+    }
+
+    // Function to show Home/Profile sections
+function showSection(section) {
+    // Hide all sections initially
+    document.getElementById('homeSection').classList.add('hidden');
+    document.getElementById('profileSection').classList.add('hidden');
+
+    // Remove 'active' class from all buttons
+    const buttons = document.querySelectorAll('.nav button');
+    buttons.forEach(button => button.classList.remove('active'));
+
+    // Show the selected section and add 'active' class to corresponding button
+    if (section === 'home') {
+        document.getElementById('homeSection').classList.remove('hidden');
+        document.getElementById('navHomeButton').classList.add('active'); // Example ID for Home button
+    } else if (section === 'profile') {
+        document.getElementById('profileSection').classList.remove('hidden');
+        document.getElementById('navProfileButton').classList.add('active'); // Example ID for Profile button
+    }
+}
+
+
+    // Logout function
+    function logout() {
+        document.getElementById('app').classList.add('hidden');
+        document.getElementById('loginForm').classList.remove('hidden');
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+    }
+
+    // Function to clear transaction fields after operation
+    function clearTransactionFields() {
+        document.getElementById('amount').value = '';
+        document.getElementById('transactionPin').value = '';
+    }
+</script>
+
+</body>
+</html>
