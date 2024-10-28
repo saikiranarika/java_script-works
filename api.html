@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-image: url('img1.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .navbar {
+            width: 100%;
+            background-color: #192457;
+            overflow: hidden;
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .filter-bar {
+            padding: 20px;
+            background-color:transparent;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .filter-bar input {
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        .filter-bar button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .filter-bar button:hover {
+            background-color: #0bf75e;
+        }
+
+        .demo {
+            border: 2px solid hsla(0, 60%, 80%, 0.898);
+            text-align: center;
+            padding: 10px;
+            margin: 15px;
+            background: #ce9191;
+            width: 200px;
+            transition: 0.1s ease;
+        }
+        .demo:hover {
+            border: 2px solid #cf9cf1;
+            box-shadow: 0px 0px 10px #de8fe9, 0px 0px 20px #de8fe9;
+            width: 210px;
+        }
+
+        .demo img {
+            display: flex;
+            flex-wrap: wrap;
+            height: 200px;
+            width: 200px;
+            background-color: hwb(0 73% 7%);
+            border-radius: 10px;
+        }
+
+        #main {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .click {
+            align-items: center;
+            border-radius: 10px;
+            background: hsl(41, 67%, 68%);
+            font-size: small;
+        }
+
+        .click:hover {
+            background-color: rgb(95, 237, 159);
+        }
+
+        /* About section*/
+        #about {
+            background-color: #f4f4f4;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #about h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #about p {
+            color: #555;
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Contact */
+        .contact-support {
+            background-color: #f4f4f4;
+            padding: 30px;
+            margin: 20px;
+            border-radius: 10px;
+        }
+
+        .contact-support h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .contact-support input, .contact-support textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .contact-support button {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .contact-support button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation bar -->
+    <div class="navbar">
+        <a href="#main">Home</a>
+        <a href="#products">Products</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <!-- Filter price range -->
+    <div class="filter-bar">
+        <input type="number" id="minPrice" placeholder="Min Price" />
+        <input type="number" id="maxPrice" placeholder="Max Price" />
+        <button onclick="applyFilter()">Apply Filter</button>
+    </div>
+
+    <!-- Main content -->
+    <div id="main"></div>
+
+    <!-- About Section -->
+    <div id="about">
+        <h2>About Us</h2>
+        <p>Welcome to our online store! We provide a wide range of high-quality products at affordable prices. Our mission is to deliver the best online shopping experience to our customers by offering excellent products, fast shipping, and exceptional customer service. Whether you're looking for electronics, fashion, or home goods, we have something for everyone!</p>
+    </div>
+
+    <!-- Contact Support Section -->
+    <div id="contact" class="contact-support">
+        <h2>Contact Support</h2>
+        <form id="contactForm">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name.." required>
+            
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Your email.." required>
+            
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Write your message.." rows="4" required></textarea>
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        let allProducts = [];
+
+        async function getData() {
+            const url = await fetch('https://dummyjson.com/products');
+            let data = await url.json();
+            allProducts = data.products; 
+            displayProducts(allProducts); 
+        }
+
+        function displayProducts(products) {
+            const data1 = products.map(a => {
+                return (
+                    `<div class="demo">
+                        <img src=${a.images[0]} alt="product image">
+                        <p>${a.title}</p>
+                        <p>${a.description.slice(0, 25)}</p>
+                        <p>$${a.price}</p>
+                        <button class="click">Add Cart</button>
+                    </div>`
+                );
+            }).join("");
+            document.getElementById('main').innerHTML = data1;
+        }
+
+        function applyFilter() {
+            const minPrice = document.getElementById('minPrice').value;
+            const maxPrice = document.getElementById('maxPrice').value;
+
+            const filteredProducts = allProducts.filter(product => {
+                return product.price >= minPrice && product.price <= maxPrice;
+            });
+
+            displayProducts(filteredProducts); // Display only the filtered products
+        }
+
+        // Contact form submit handler
+        document.getElementById('contactForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            // Here, you could send this data to a server or handle it however needed
+            alert(`Thank you for contacting us, ${name}! We'll get back to you at ${email}.`);
+
+            // Clear the form after submission
+            document.getElementById('contactForm').reset();
+        });
+
+        getData();
+    </script>
+
+</body>
+</html>

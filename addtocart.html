@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buety Online Shop</title>
+  <style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: row; /* Keep items in a row */
+        justify-content: end; /* Space out items evenly */
+        align-items: center; /* Center items vertically */
+        flex-wrap: wrap; /* Allow wrapping if space is limited */
+    }
+
+    .nav-links {
+        flex-direction: row; /* Keep links in a row */
+        gap: 10px; /* Space between links */
+        width: auto; /* Allow auto width */
+    }
+
+    .nav-links li {
+        flex: 1; /* Make each link take equal space */
+    }
+
+    .nav-links a {
+        padding: 10px; /* Padding for links */
+        text-align: center; /* Center text */
+        display: block; /* Make links block elements */
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 0; /* Remove padding */
+    }
+
+    .nav-links {
+        gap: 10px; /* Keep gap for spacing */
+    }
+}
+.nav-links a:hover {
+  background-color: #555;
+  border-radius: 5px;
+}
+
+/* Cart Button */
+.cart {
+  position: absolut;
+  top: 15px;
+  right: 20px;
+}
+
+#cartItemsContainer {
+  display: none;
+  background-color: white;
+  color: #0b0707;
+  position: absolute;
+  top: 35px;
+  right: 0;
+  width: 300px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  z-index: 1000;
+}
+
+.cart-items ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.cart-items ul li {
+  padding: 5px 0;
+  border-bottom: 1px solid #0b0707;
+}
+
+.cart-items ul li:last-child {
+  border-bottom: none;
+}
+
+/* Products Section */
+main {
+  padding: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.product{
+  background-color: rgb(227, 191, 191);
+  padding: 20px;
+  margin: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 200px;
+  text-align: center;
+  transform: 3s ease;
+}
+.product img{
+  width: 200px;
+  height: 200px;
+  border-radius: 5px 5px;
+}
+.product:hover{
+  width: 210px;
+  background-color: #f39393;
+}
+button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #218838;
+}
+.header{
+  position: fixed;
+  width: 100%;
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="header">
+     <!-- Nav Bar -->
+     <nav class="navbar">
+      <ul class="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><div>
+            <button id="cartButton">Cart (<span id="cartCount">0</span>)</button>
+            <p class="cart-items" id="cartItemsContainer"></p>
+            </div></li>
+      </ul>
+       
+    </nav>
+   </div>
+     
+  </header>
+  
+  <main>
+    <div class="product" data-name="skin brightening" data-price="199.99">
+      <img src="skin brightening.jpg" alt="">
+      <h4>skin brightening</h4>
+      <p>Price: $199.99</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="skin face serum" data-price="29.99">
+      <img src="skin face serum.jpg" alt="">
+      <h4>skin face serum</h4>
+      <p>Price: $29.99</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="skin glower" data-price="29.99">
+      <img src="skin glower.jpg" alt="">
+      <h4>skin glower</h4>
+      <p>Price: $29.99</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+
+    <div class="product" data-name="sun-scream" data-price="299.99">
+       
+        <img src="sun-scream.jpg" alt="">
+        <h4>sun-scream</h4>
+        <p>Price: $299.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product" data-name="night creame" data-price="900.99">
+        
+        <img src="night creame for glowing.jpg" alt="">
+        <h4>night creame</h4>
+        <p>Price: $900.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product" data-name="kumkumadi" data-price="80.99">
+        
+        <img src="kumkumadi.jpg" alt="">
+        <h4>kumkumadi</h4>
+        <p>Price: $80.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product" data-name="glow facewash" data-price="99.99">
+        
+        <img src="glow facewash.jpg" alt="">
+        <h4>glow facewash</h4>
+        <p>Price: $99.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product" data-name="milk cosmotic" data-price="9.99">
+        <img src="1328.jpg" alt="">
+        <h2>milk cosmotic</h2>
+        <p>Price: $9.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+      <div class="product" data-name="mascara" data-price="20.99">
+        <img src="mascara.jpg" alt="">
+        <h2>mascara</h2>
+        <p>Price: $20.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+      
+      <div class="product" data-name="liquid lip color" data-price="45.99">
+        <img src="liquid lip color.jpg" alt="">
+        <h2>liquid lip color</h2>
+        <p>Price: $45.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product" data-name="perfumed body mist" data-price="50.99">
+        <img src="perfumed body mist.jpg" alt="">
+        <h2>perfumed body mist</h2>
+        <p>Price: $50.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product" data-name="lumi lit cream" data-price="90.99">
+        <img src="lumi lit cream.jpg" alt="">
+        <h2>lumi lit cream</h2>
+        <p>Price: $90.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product" data-name="ultimate glam compact" data-price="99.99">
+        <img src="ultimate glam compact.jpg" alt="">
+        <h2>ultimate glam compact</h2>
+        <p>Price: $99.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product" data-name="face wash" data-price="20.99">
+        <img src="face wash.jpg" alt="">
+        <h2>face wash</h2>
+        <p>Price: $20.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product" data-name="fair&lovely face wash" data-price="29.99">
+        <img src="fair&lovely face wash.jpg" alt="">
+        <h2>fair&lovely face wash</h2>
+        <p>Price: $29.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product" data-name="eyeliner" data-price="19.99">
+        <img src="eyeliner.jpg" alt="">
+        <h2>eyeliner</h2>
+        <p>Price: $19.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product" data-name="rospberry lipstick" data-price="39.99">
+        <img src="rospberry lipstick.jpg" alt="">
+        <h2>rospberry lipstick</h2>
+        <p>Price: $39.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product" data-name="moiture riser" data-price="49.99">
+        <img src="moiture-riser.jpg" alt="">
+        <h2>moiture riser</h2>
+        <p>Price: $49.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product" data-name="lumi lit+" data-price="59.99">
+        <img src="lumi lit+.jpg" alt="">
+        <h2>lumi lite+</h2>
+        <p>Price: $59.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="product" data-name="khesh kala oil" data-price="49.99">
+        <img src="khesh kala oil.jpg" alt="">
+        <h2>kesh kala oil</h2>
+        <p>Price: $49.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+  </main>
+
+  <script>
+    let cart = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+  const cartButton = document.getElementById('cartButton');
+  const cartItemsContainer = document.getElementById('cartItemsContainer');
+  const cartCount = document.getElementById('cartCount');
+
+  // Add to Cart button functionality
+  document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const productElement = e.target.closest('.product');
+      const productName = productElement.getAttribute('data-name');
+      const productPrice = parseFloat(productElement.getAttribute('data-price'));
+
+      addToCart(productName, productPrice);
+      updateCartCount();
+      displayCartItems();
+    });
+  });
+
+  // Show/Hide cart items on clicking the cart button
+  cartButton.addEventListener('click', () => {
+    cartItemsContainer.style.display = cartItemsContainer.style.display === 'none' ? 'block' : 'none';
+  });
+
+  function addToCart(name, price) {
+    const existingItem = cart.find(item => item.name === name);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cart.push({ name, price, quantity: 1 });
+    }
+  }
+
+  function removeFromCart(name) {
+    const itemIndex = cart.findIndex(item => item.name === name);
+    if (itemIndex !== -1) {
+      cart[itemIndex].quantity -= 1;
+      if (cart[itemIndex].quantity === 0) {
+        cart.splice(itemIndex, 1);
+      }
+    }
+    updateCartCount();
+    displayCartItems();
+  }
+
+  function updateCartCount() {
+    const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+    cartCount.textContent = totalItems;
+  }
+
+  function displayCartItems() {
+    const cartItemsList = cart.map(item => 
+      `<li>
+        ${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toFixed(2)}
+        <button class="remove-from-cart" data-name="${item.name}">Remove</button>
+      </li>`
+    ).join('');
+    
+    cartItemsContainer.innerHTML = `
+      <ul>
+        ${cartItemsList ? cartItemsList : '<li>No items in cart</li>'}
+      </ul>`;
+
+    // Add event listeners to all "Remove" buttons
+    document.querySelectorAll('.remove-from-cart').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const itemName = e.target.getAttribute('data-name');
+        removeFromCart(itemName);
+      });
+    });
+  }
+});
+
+
+  </script>
+</body>
+</html>
